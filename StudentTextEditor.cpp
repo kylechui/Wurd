@@ -63,13 +63,20 @@ void StudentTextEditor::backspace() {
 
 void StudentTextEditor::insert(char ch) {
 	// TODO
-	if ((*curRow).empty())
-		*curRow += ch;
-	else
+	string s;
+	switch (ch)
 	{
-		*curRow = (*curRow).substr(0, m_col) + ch + (*curRow).substr(m_col);
-		m_col++;
+	case 9:
+		s = "    ";
+		break;
+	default:
+		s = ch;
+		break;
 	}
+	*curRow = (*curRow).substr(0, m_col) + s + (*curRow).substr(m_col);
+	if (ch == 9)
+		m_col += 3;
+	m_col++;
 }
 void StudentTextEditor::enter() {
 	// TODO
