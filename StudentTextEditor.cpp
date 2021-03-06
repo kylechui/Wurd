@@ -73,13 +73,28 @@ void StudentTextEditor::insert(char ch) {
 		s = ch;
 		break;
 	}
+	if (curRow == m_text.end())
+	{
+		m_text.push_back("");
+		curRow = m_text.begin();
+	}
 	*curRow = (*curRow).substr(0, m_col) + s + (*curRow).substr(m_col);
 	if (ch == 9)
 		m_col += 3;
 	m_col++;
 }
 void StudentTextEditor::enter() {
-	// TODO
+	string nextRow = (*curRow).substr(m_col);
+	*curRow = (*curRow).substr(0, m_col);
+	curRow++;
+	m_text.insert(curRow, nextRow);
+	curRow--;
+	m_row++;
+	m_col = 0;
+	/*string thisRow = (*curRow).substr(0, m_col);
+	*curRow = thisRow;
+	m_row++;
+	m_col = 0;*/
 }
 
 void StudentTextEditor::getPos(int& row, int& col) const {
@@ -109,7 +124,7 @@ int StudentTextEditor::getLines(int startRow, int numRows, std::vector<std::stri
 		}
 	}
 	// Copy the text over to lines
-	for (int i = 0; i < numRows; i++)
+	while (count < numRows)
 	{
 		if (it == m_text.end())
 			break;
