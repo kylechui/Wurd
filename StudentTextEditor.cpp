@@ -99,6 +99,14 @@ void StudentTextEditor::move(Dir dir) {
 			m_col = 0;
 		}
 		break;
+	// If home is pressed, move to the beginning of the line
+	case (Dir::HOME):
+		m_col = 0;
+		break;
+	// If end is pressed, move to the end of the line
+	case (Dir::END):
+		m_col = (*curRow).size();
+		break;
 	default:
 		break;
 	}
