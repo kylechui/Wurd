@@ -21,6 +21,7 @@ StudentTextEditor::~StudentTextEditor()
 {
 	m_text.clear();
 }
+
 bool StudentTextEditor::load(std::string file) {
 	ifstream infile(file);
 	// Return false if no file could be found
@@ -62,7 +63,7 @@ void StudentTextEditor::move(Dir dir) {
 		break;
 	// If down is pressed, move down only if not in the last row
 	case (Dir::DOWN):
-		if (m_row < m_text.size())
+		if (m_row < m_text.size() - 1)
 		{
 			m_row++;
 			curRow++;
@@ -87,7 +88,7 @@ void StudentTextEditor::move(Dir dir) {
 	case (Dir::RIGHT):
 		if (m_col != (*curRow).size())
 			m_col++;
-		else if (m_row != m_text.size())
+		else if (m_row != m_text.size() - 1)
 		{
 			m_row++;
 			curRow++;
@@ -107,7 +108,7 @@ void StudentTextEditor::del() {
 	{
 		// If deleting at the end of a line and not in the last row,
 		// combine the two rows into the current row and delete the next row
-		if (m_row != m_text.size())
+		if (m_row != m_text.size() - 1)
 		{
 			list<string>::iterator temp = curRow;
 			temp++;
@@ -186,7 +187,7 @@ void StudentTextEditor::getPos(int& row, int& col) const {
 }
 
 int StudentTextEditor::getLines(int startRow, int numRows, std::vector<std::string>& lines) const {
-	if (startRow < 0 || numRows < 0 || startRow > m_text.size())
+	if (startRow < 0 || numRows < 0 || startRow > m_text.size() - 1)
 		return -1;
 	lines.clear();
 	// Navigate a pointer to startRow
