@@ -58,7 +58,26 @@ void StudentTextEditor::del() {
 }
 
 void StudentTextEditor::backspace() {
-	// TODO
+	// If deleting in the middle of a line, remove the character
+	// and decrement the column
+	if (m_col > 0)
+	{
+		*curRow = (*curRow).substr(0, m_col - 1) + (*curRow).substr(m_col);
+		m_col--;
+	}
+	else
+	{
+		if (m_row != 0)
+		{
+			string thisRow = *curRow;
+			list<string>::iterator temp = curRow;
+			curRow--;
+			m_text.erase(temp);
+			m_col = (*curRow).size();
+			m_row--;
+			*curRow += thisRow;
+		}
+	}
 }
 
 void StudentTextEditor::insert(char ch) {
@@ -84,17 +103,18 @@ void StudentTextEditor::insert(char ch) {
 	m_col++;
 }
 void StudentTextEditor::enter() {
+	// Get the part of the string after the cursor
 	string nextRow = (*curRow).substr(m_col);
+	// Set this row to be the part of the string before the cursor
 	*curRow = (*curRow).substr(0, m_col);
+	// Jump to the next line and insert the next row there
 	curRow++;
 	m_text.insert(curRow, nextRow);
+	// Go back to the previous row
 	curRow--;
+	// Update the position of the cursor
 	m_row++;
 	m_col = 0;
-	/*string thisRow = (*curRow).substr(0, m_col);
-	*curRow = thisRow;
-	m_row++;
-	m_col = 0;*/
 }
 
 void StudentTextEditor::getPos(int& row, int& col) const {
