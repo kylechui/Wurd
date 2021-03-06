@@ -59,6 +59,8 @@ void StudentTextEditor::move(Dir dir) {
 		{
 			m_row--;
 			curRow--;
+			if (m_col > (*curRow).size())
+				m_col = (*curRow).size();
 		}
 		break;
 	// If down is pressed, move down only if not in the last row
@@ -67,6 +69,8 @@ void StudentTextEditor::move(Dir dir) {
 		{
 			m_row++;
 			curRow++;
+			if (m_col > (*curRow).size())
+				m_col = (*curRow).size();
 		}
 		break;
 	// If left is pressed, move to the left if possible,
