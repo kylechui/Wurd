@@ -52,6 +52,7 @@ void StudentTextEditor::reset() {
 void StudentTextEditor::move(Dir dir) {
 	switch (dir)
 	{
+	// If up is pressed, move up only if not in the first row
 	case (Dir::UP):
 		if (m_row > 0)
 		{
@@ -59,6 +60,7 @@ void StudentTextEditor::move(Dir dir) {
 			curRow--;
 		}
 		break;
+	// If down is pressed, move down only if not in the last row
 	case (Dir::DOWN):
 		if (m_row < m_text.size())
 		{
@@ -66,6 +68,9 @@ void StudentTextEditor::move(Dir dir) {
 			curRow++;
 		}
 		break;
+	// If left is pressed, move to the left if possible,
+	// Otherwise go the end of the previous row if possible,
+	// Otherwise do nothing
 	case (Dir::LEFT):
 		if (m_col != 0)
 			m_col--;
@@ -76,6 +81,9 @@ void StudentTextEditor::move(Dir dir) {
 			m_col = (*curRow).size();
 		}
 		break;
+	// If right is pressed, move to the right if possible,
+	// Otherwise go to the beginning of the next row if possible,
+	// Otherwise do nothing
 	case (Dir::RIGHT):
 		if (m_col != (*curRow).size())
 			m_col++;
@@ -92,7 +100,21 @@ void StudentTextEditor::move(Dir dir) {
 }
 
 void StudentTextEditor::del() {
-	// TODO
+	// If not deleting at the end of a line, remove the character under the cursor
+	if (m_col < (*curRow).size())
+		*curRow = (*curRow).substr(0, m_col) + (*curRow).substr(m_col + 1);
+	else
+	{
+		// If deleting at the end of a line and not in the last row,
+		// combine the two rows into the current row and delete the next row
+		if (m_row != m_text.size())
+		{
+			list<string>::iterator temp = curRow;
+			temp++;
+			*curRow += *temp;
+			m_text.erase(temp);
+		}
+	}
 }
 
 void StudentTextEditor::backspace() {
@@ -142,6 +164,7 @@ void StudentTextEditor::insert(char ch) {
 		m_col += 3;
 	m_col++;
 }
+
 void StudentTextEditor::enter() {
 	// Get the part of the string after the cursor
 	string nextRow = (*curRow).substr(m_col);
