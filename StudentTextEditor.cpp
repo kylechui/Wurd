@@ -50,7 +50,45 @@ void StudentTextEditor::reset() {
 }
 
 void StudentTextEditor::move(Dir dir) {
-	// TODO
+	switch (dir)
+	{
+	case (Dir::UP):
+		if (m_row > 0)
+		{
+			m_row--;
+			curRow--;
+		}
+		break;
+	case (Dir::DOWN):
+		if (m_row < m_text.size())
+		{
+			m_row++;
+			curRow++;
+		}
+		break;
+	case (Dir::LEFT):
+		if (m_col != 0)
+			m_col--;
+		else if (m_row != 0)
+		{
+			m_row--;
+			curRow--;
+			m_col = (*curRow).size();
+		}
+		break;
+	case (Dir::RIGHT):
+		if (m_col != (*curRow).size())
+			m_col++;
+		else if (m_row != m_text.size())
+		{
+			m_row++;
+			curRow++;
+			m_col = 0;
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 void StudentTextEditor::del() {
@@ -58,7 +96,7 @@ void StudentTextEditor::del() {
 }
 
 void StudentTextEditor::backspace() {
-	// If deleting in the middle of a line, remove the character
+	// If not deleting at the beginning of a line, remove the character
 	// and decrement the column
 	if (m_col > 0)
 	{
@@ -67,6 +105,8 @@ void StudentTextEditor::backspace() {
 	}
 	else
 	{
+		// If deleting at the beginning of a line and not in the first row,
+		// combine the two rows into the one above and delete the current row
 		if (m_row != 0)
 		{
 			string thisRow = *curRow;
