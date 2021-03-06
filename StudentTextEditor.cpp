@@ -26,7 +26,7 @@ bool StudentTextEditor::load(std::string file) {
 	// Return false if no file could be found
 	if (!infile)
 		return false;
-	// Reset the file
+	// Reset the editor
 	reset();
 	// Iterate through the lines of the text, TODO: remove carriage returns
 	string curLine;
@@ -34,6 +34,7 @@ bool StudentTextEditor::load(std::string file) {
 	{
 		m_text.push_back(curLine);
 	}
+	curRow = m_text.begin();
 	return true;
 }
 
@@ -43,6 +44,7 @@ bool StudentTextEditor::save(std::string file) {
 
 void StudentTextEditor::reset() {
 	//TODO: reset undo operations as well
+	m_text.clear();
 	m_row = 0;
 	m_col = 0;
 }
@@ -61,8 +63,14 @@ void StudentTextEditor::backspace() {
 
 void StudentTextEditor::insert(char ch) {
 	// TODO
+	if ((*curRow).empty())
+		*curRow += ch;
+	else
+	{
+		*curRow = (*curRow).substr(0, m_col) + ch + (*curRow).substr(m_col);
+		m_col++;
+	}
 }
-
 void StudentTextEditor::enter() {
 	// TODO
 }
@@ -96,7 +104,7 @@ int StudentTextEditor::getLines(int startRow, int numRows, std::vector<std::stri
 	// Copy the text over to lines
 	for (int i = 0; i < numRows; i++)
 	{
-		if (i >= m_text.size() - startRow)
+		if (it == m_text.end())
 			break;
 		lines.push_back(*it);
 		it++;
