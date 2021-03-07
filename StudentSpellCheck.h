@@ -17,9 +17,9 @@ public:
 private:
 	struct Node
 	{
-		Node(char c) { m_value = c; };
-		char m_value;
-		std::vector<Node*> m_children;
+		Node();
+		bool m_value;
+		Node* m_children[27];
 	};
 	struct Trie
 	{

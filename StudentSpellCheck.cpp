@@ -18,7 +18,7 @@ bool StudentSpellCheck::load(std::string dictionaryFile) {
 	// Return false if no file could be found
 	if (!infile)
 		return false;
-	// Iterate through the lines of the text, TODO: remove carriage returns
+	// Iterate through the lines of the dictionary, and add them to the trie
 	string curLine;
 	while (getline(infile, curLine))
 		m_trie.addString(m_trie.head, curLine);
@@ -26,41 +26,53 @@ bool StudentSpellCheck::load(std::string dictionaryFile) {
 }
 
 bool StudentSpellCheck::spellCheck(std::string word, int max_suggestions, std::vector<std::string>& suggestions) {
-	return false; // TODO
+	for (int i = 0; i < word.size(); i++)
+	{
+		
+	}
+	return true;
 }
 
 void StudentSpellCheck::spellCheckLine(const std::string& line, std::vector<SpellCheck::Position>& problems) {
 	// TODO
 }
 
+StudentSpellCheck::Node::Node():
+	m_value(false)
+{
+	for (int i = 0; i < 27; i++)
+		m_children[i] = nullptr;
+}
+
 void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node* start, std::string s)
 {
 	if (s.empty())
-		return;
+	{
+		if (start != nullptr)
+		{
+			start->m_value = true;
+			return;
+		}
+		else
+		{
+			Node* n = new Node();
+			start = n;
+			n->m_value = true;
+			return;
+		}
+	}
 	char c = tolower(s[0]);
 	if (start == nullptr)
 	{
-		Node* n = new Node(c);
+		Node* n = new Node();
 		start = n;
 		addString(n, s.substr(1));
 	}
 	else
 	{
-		vector<Node*>::iterator it = (start->m_children).begin();
-		while (it != (start->m_children).end())
-		{
-			if ((*it)->m_value == c)
-			{
-				addString(*it, s.substr(1));
-				return;
-			}
-			it++;
-		}
-		if (it == (start->m_children).end())
-		{
-			Node* n = new Node(c);
-			(start->m_children).push_back(n);
-			addString(n, s.substr(1));
-		}
+		if (c == '\'')
+			addString(start->m_children[26], s.substr(1));
+		else
+			addString(start->m_children[c - 'a'], s.substr(1));
 	}
 }
