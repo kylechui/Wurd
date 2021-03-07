@@ -24,7 +24,9 @@ private:
 	struct Trie
 	{
 		Trie() { head = nullptr; };
+		~Trie();
 		void addString(Node* start, std::string s);
+		void freeNodes(Node* node);
 		Node* head;
 	};
 	Trie m_trie;

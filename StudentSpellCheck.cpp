@@ -76,3 +76,17 @@ void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node* start, std::str
 			addString(start->m_children[c - 'a'], s.substr(1));
 	}
 }
+
+StudentSpellCheck::Trie::~Trie()
+{
+	freeNodes(head);
+}
+
+void StudentSpellCheck::Trie::freeNodes(Node* node)
+{
+	if (node == nullptr)
+		return;
+	for (int i = 0; i < 27; i++)
+		freeNodes(node->m_children[i]);
+	delete node;
+}
