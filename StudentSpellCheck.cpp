@@ -10,7 +10,7 @@ SpellCheck* createSpellCheck()
 }
 
 StudentSpellCheck::~StudentSpellCheck() {
-	// TODO
+	m_trie.freeNodes(m_trie.head);
 }
 
 bool StudentSpellCheck::load(std::string dictionaryFile) {
