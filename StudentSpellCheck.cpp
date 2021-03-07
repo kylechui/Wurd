@@ -28,21 +28,29 @@ bool StudentSpellCheck::load(std::string dictionaryFile) {
 bool StudentSpellCheck::spellCheck(std::string word, int max_suggestions, std::vector<std::string>& suggestions) {
 	bool foundWord = findString(word);
 	int count = 0;
+	suggestions.clear();
 	if (!foundWord)
 	{
 		for (int i = 0; i < word.size(); i++)
 		{
 			for (int j = 0; j < 26; j++)
 			{
-				string similar = word.substr(0, i) + ('a' + i + "") + word.substr(i + 1);
+				string temp(1, 'a' + i);
+				string similar = word.substr(0, i) + temp + word.substr(i + 1);
 				if (findString(similar))
+				{
 					count++;
+					suggestions.push_back(similar);
+				}
 				if (count > max_suggestions)
 					return false;
 			}
-			string similar = word.substr(0, i) + "'" + word.substr(i + 1);
+			string similar = word.substr(0, i) + "\'" + word.substr(i + 1);
 			if (findString(similar))
+			{
 				count++;
+				suggestions.push_back(similar);
+			}
 			if (count > max_suggestions)
 				return false;
 		}
