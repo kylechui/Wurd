@@ -57,9 +57,10 @@ void StudentSpellCheck::spellCheckLine(const std::string& line, std::vector<Spel
 	string temp = "";
 	for (int i = 0; i < line.size(); i++)
 	{
-		char c = tolower(line[i]);
+		char c =line[i];
 		if (isalpha(c))
 		{
+			c = tolower(c);
 			if (!hasLetter)
 			{
 				start = i;
@@ -67,6 +68,9 @@ void StudentSpellCheck::spellCheckLine(const std::string& line, std::vector<Spel
 			}
 			hasLetter = true;
 			temp += c;
+			// If at the end of the line, check for typos
+			if (i == line.size() - 1 && !findString(temp))
+				problems.push_back({ start, i });
 		}
 		else if (line[i] == '\'')
 			temp += c;
@@ -89,29 +93,34 @@ StudentSpellCheck::Node::Node():
 		m_children[i] = nullptr;
 }
 
-void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node* start, std::string s)
+void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node*& start, std::string s)
 {
 	if (s.empty())
 	{
-		if (start != nullptr)
+		if (start == nullptr)
 		{
-			start->m_value = true;
+			Node* n = new Node();
+			n->m_value = true;
+			start = n;
 			return;
 		}
 		else
 		{
-			Node* n = new Node();
-			start = n;
-			n->m_value = true;
+			start->m_value = true;
 			return;
-		}
+		}	
 	}
-	char c = tolower(s[0]);
+	char c = s[0];
+	if (isalpha(c))
+		c = tolower(c);
 	if (start == nullptr)
 	{
 		Node* n = new Node();
 		start = n;
-		addString(n, s.substr(1));
+		if (c == '\'')
+			addString(n->m_children[26], s.substr(1));
+		else
+			addString(n->m_children[c - 'a'], s.substr(1));
 	}
 	else
 	{
@@ -125,14 +134,16 @@ void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node* start, std::str
 bool StudentSpellCheck::findString(string s)
 {
 	Node* ptr = m_trie.head;
+	if (ptr == nullptr)
+		return false;
 	for (int i = 0; i < s.size(); i++)
 	{
-		if (ptr == nullptr)
-			return false;
 		if (s[i] == '\'')
 			ptr = ptr->m_children[26];
-		else
+		else if (isalpha(s[i]))
 			ptr = ptr->m_children[tolower(s[i]) - 'a'];
+		if (ptr == nullptr)
+			return false;
 	}
 	return ptr->m_value;
 }
