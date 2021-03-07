@@ -15,6 +15,7 @@ public:
 	void spellCheckLine(const std::string& line, std::vector<Position>& problems);
 
 private:
+	bool findString(std::string s);
 	struct Node
 	{
 		Node();

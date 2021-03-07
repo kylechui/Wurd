@@ -26,11 +26,29 @@ bool StudentSpellCheck::load(std::string dictionaryFile) {
 }
 
 bool StudentSpellCheck::spellCheck(std::string word, int max_suggestions, std::vector<std::string>& suggestions) {
-	for (int i = 0; i < word.size(); i++)
+	bool foundWord = findString(word);
+	int count = 0;
+	if (!foundWord)
 	{
-		
+		for (int i = 0; i < word.size(); i++)
+		{
+			for (int j = 0; j < 26; j++)
+			{
+				string similar = word.substr(0, i) + ('a' + i + "") + word.substr(i + 1);
+				if (findString(similar))
+					count++;
+				if (count > max_suggestions)
+					return false;
+			}
+			string similar = word.substr(0, i) + "'" + word.substr(i + 1);
+			if (findString(similar))
+				count++;
+			if (count > max_suggestions)
+				return false;
+		}
 	}
-	return true;
+	else
+		return true;
 }
 
 void StudentSpellCheck::spellCheckLine(const std::string& line, std::vector<SpellCheck::Position>& problems) {
@@ -77,6 +95,21 @@ void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node* start, std::str
 	}
 }
 
+bool StudentSpellCheck::findString(string s)
+{
+	Node* ptr = m_trie.head;
+	for (int i = 0; i < s.size(); i++)
+	{
+		if (ptr == nullptr)
+			return false;
+		if (s[i] == '\'')
+			ptr = ptr->m_children[26];
+		else
+			ptr = ptr->m_children[tolower(s[i]) - 'a'];
+	}
+	return ptr->m_value;
+}
+
 StudentSpellCheck::Trie::~Trie()
 {
 	freeNodes(head);
@@ -90,3 +123,5 @@ void StudentSpellCheck::Trie::freeNodes(Node* node)
 		freeNodes(node->m_children[i]);
 	delete node;
 }
+
+

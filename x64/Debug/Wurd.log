@@ -1,2 +1,3 @@
 ﻿  StudentSpellCheck.cpp
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentSpellCheck.cpp(52): warning C4715: 'StudentSpellCheck::spellCheck': not all control paths return a value
   Wurd.vcxproj -> C:\Users\kylec\Documents\Winter21\CS32\Wurd\x64\Debug\Wurd.exe
