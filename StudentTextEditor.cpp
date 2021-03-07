@@ -156,26 +156,28 @@ void StudentTextEditor::backspace() {
 }
 
 void StudentTextEditor::insert(char ch) {
-	// TODO
 	string s;
-	switch (ch)
-	{
-	case 9:
+	// If the character is a tab, insert four spaces instead
+	if (ch == 9)
 		s = "    ";
-		break;
-	default:
+	else
 		s = ch;
-		break;
-	}
+	// If the current row is at the end (typically a new file) then
+	// add a new row that's empty
 	if (curRow == m_text.end())
 	{
 		m_text.push_back("");
 		curRow = m_text.begin();
 	}
+	// Insert the character(s)
 	*curRow = (*curRow).substr(0, m_col) + s + (*curRow).substr(m_col);
+	// If the character is a tab, move forward by 4 spaces
+	// Otherwise just move forward by one
 	if (ch == 9)
-		m_col += 3;
-	m_col++;
+		m_col += 4;
+	else
+		m_col++;
+	getUndo()->submit(Undo::Action::INSERT, m_row, m_col, ch);
 }
 
 void StudentTextEditor::enter() {
