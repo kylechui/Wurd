@@ -14,7 +14,15 @@ StudentSpellCheck::~StudentSpellCheck() {
 }
 
 bool StudentSpellCheck::load(std::string dictionaryFile) {
-	return true; // TODO
+	ifstream infile(dictionaryFile);
+	// Return false if no file could be found
+	if (!infile)
+		return false;
+	// Iterate through the lines of the text, TODO: remove carriage returns
+	string curLine;
+	while (getline(infile, curLine))
+		m_trie.addString(m_trie.head, curLine);
+	return true;
 }
 
 bool StudentSpellCheck::spellCheck(std::string word, int max_suggestions, std::vector<std::string>& suggestions) {
