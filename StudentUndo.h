@@ -26,7 +26,7 @@ private:
 		int m_col;
 		char m_char;
 	};
-	std::stack<MyAction> m_stack;
+	std::stack<MyAction*> m_stack;
 };
 
 #endif // STUDENTUNDO_H_

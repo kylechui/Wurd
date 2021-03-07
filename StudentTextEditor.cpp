@@ -234,5 +234,12 @@ int StudentTextEditor::getLines(int startRow, int numRows, std::vector<std::stri
 }
 
 void StudentTextEditor::undo() {
-	// TODO
+	int count = 0;
+	string s = "";
+	Undo::Action act = getUndo()->get(m_row, m_col, count, s);
+	if (act == Undo::Action::DELETE)
+	{
+		*curRow = (*curRow).substr(0, m_col - count) + (*curRow).substr(m_col);
+		m_col -= count;
+	}
 }
