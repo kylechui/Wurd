@@ -131,6 +131,8 @@ void StudentTextEditor::del() {
 }
 
 void StudentTextEditor::backspace() {
+	// Save the character that's about to be deleted
+	char ch = (*curRow)[m_col - 1];
 	// If not deleting at the beginning of a line, remove the character
 	// and decrement the column
 	if (m_col > 0)
@@ -153,6 +155,7 @@ void StudentTextEditor::backspace() {
 			*curRow += thisRow;
 		}
 	}
+	getUndo()->submit(Undo::Action::DELETE, m_row, m_col, ch);
 }
 
 void StudentTextEditor::insert(char ch) {
@@ -241,5 +244,10 @@ void StudentTextEditor::undo() {
 	{
 		*curRow = (*curRow).substr(0, m_col - count) + (*curRow).substr(m_col);
 		m_col -= count;
+	}
+	else if (act == Undo::Action::INSERT)
+	{
+		*curRow = (*curRow).substr(0, m_col) + s + (*curRow).substr(m_col);
+		m_col += count;
 	}
 }

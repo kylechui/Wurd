@@ -41,6 +41,29 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 		col += count - 1;
 		return Undo::Action::DELETE;
 	}
+	else if (act == Action::DELETE)
+	{
+		text = ch;
+		count++;
+		while (!m_stack.empty() &&
+			m_stack.top()->m_action == Action::DELETE &&
+			m_stack.top()->m_row == row &&
+			m_stack.top()->m_col - 1 == col)
+		{
+			count++;
+			col = m_stack.top()->m_col;
+			ch = m_stack.top()->m_char;
+			text += ch;
+			// Get the values from the top of the stack and pop the top off
+			Action act = m_stack.top()->m_action;
+			row = m_stack.top()->m_row;
+			col = m_stack.top()->m_col;
+			ch = m_stack.top()->m_col;
+			m_stack.pop();
+		}
+		col -= count - 1;
+		return Undo::Action::INSERT;
+	}
 }
 
 void StudentUndo::clear() {
