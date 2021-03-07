@@ -15,7 +15,18 @@ public:
 	void spellCheckLine(const std::string& line, std::vector<Position>& problems);
 
 private:
-
+	struct Node
+	{
+		Node(char c) { m_value = c; };
+		char m_value;
+		std::vector<Node*> m_children;
+	};
+	struct Trie
+	{
+		Trie() { head = nullptr; };
+		void addString(Node* start, std::string s);
+		Node* head;
+	};
 };
 
 #endif  // STUDENTSPELLCHECK_H_
