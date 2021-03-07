@@ -72,6 +72,7 @@ bool StudentSpellCheck::spellCheck(std::string word, int max_suggestions, std::v
 	// If the word is in the dictionary, return true
 	else
 		return true;
+	return false;
 }
 
 void StudentSpellCheck::spellCheckLine(const std::string& line, std::vector<SpellCheck::Position>& problems) {
