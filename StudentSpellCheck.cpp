@@ -52,7 +52,34 @@ bool StudentSpellCheck::spellCheck(std::string word, int max_suggestions, std::v
 }
 
 void StudentSpellCheck::spellCheckLine(const std::string& line, std::vector<SpellCheck::Position>& problems) {
-	// TODO
+	bool hasLetter = false;
+	int start = 0;
+	string temp = "";
+	for (int i = 0; i < line.size(); i++)
+	{
+		char c = tolower(line[i]);
+		if (isalpha(c))
+		{
+			if (!hasLetter)
+			{
+				start = i;
+				temp = "";
+			}
+			hasLetter = true;
+			temp += c;
+		}
+		else if (line[i] == '\'')
+			temp += c;
+		else
+		{
+			if (hasLetter)
+			{
+				if (!findString(temp))
+					problems.push_back({ start, i });
+				hasLetter = false;
+			}
+		}
+	}
 }
 
 StudentSpellCheck::Node::Node():
