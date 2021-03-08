@@ -230,6 +230,7 @@ void StudentTextEditor::enter() {
 }
 
 void StudentTextEditor::getPos(int& row, int& col) const {
+	// Store the cursor position in the parameter variables
 	row = m_row;
 	col = m_col;
 }
@@ -242,6 +243,8 @@ int StudentTextEditor::getLines(int startRow, int numRows, std::vector<std::stri
 	list<string>::iterator it = curRow;
 	int tempRow = m_row;
 	int count = 0;
+	// While the cursor is not on the same row as the startRow,
+	// Continually move it closer to startRow (by going up or down)
 	while (tempRow != startRow)
 	{
 		if (tempRow > startRow)
