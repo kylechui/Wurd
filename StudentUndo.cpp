@@ -30,7 +30,11 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 			m_stack.top()->m_row == row &&
 			m_stack.top()->m_col + 1 == col)
 		{
-			count++;
+			// Account for undoing tabs
+			if (ch == '\t')
+				count += 4;
+			else
+				count++;
 			col = m_stack.top()->m_col;
 			// Get the values from the top of the stack and pop the top off
 			act = m_stack.top()->m_action;

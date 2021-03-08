@@ -190,12 +190,10 @@ void StudentTextEditor::backspace() {
 }
 
 void StudentTextEditor::insert(char ch) {
-	string s;
-	// If the character is a tab, insert four spaces instead
-	if (ch == 9)
+	// Handle the special tab case
+	string s(1,ch);
+	if (ch == '\t')
 		s = "    ";
-	else
-		s = ch;
 	// If the current row is at the end (typically a new file) then
 	// add a new row that's empty
 	if (curRow == m_text.end())
