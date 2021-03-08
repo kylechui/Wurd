@@ -1,6 +1,2 @@
 ﻿  StudentSpellCheck.cpp
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentSpellCheck.cpp(122,19): warning C4156: deletion of an array expression without using the array form of 'delete'; array form substituted
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentSpellCheck.cpp(122,19): warning C4154: deletion of an array expression; conversion to pointer supplied
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentSpellCheck.cpp(194,25): warning C4156: deletion of an array expression without using the array form of 'delete'; array form substituted
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentSpellCheck.cpp(194,25): warning C4154: deletion of an array expression; conversion to pointer supplied
   Wurd.vcxproj -> C:\Users\kylec\Documents\Winter21\CS32\Wurd\x64\Debug\Wurd.exe

@@ -8,7 +8,7 @@
 
 class StudentSpellCheck : public SpellCheck {
 public:
-	StudentSpellCheck() { };
+	StudentSpellCheck() { m_trie = new Trie(); };
 	virtual ~StudentSpellCheck();
 	bool load(std::string dict_file);
 	bool spellCheck(std::string word, int maxSuggestions, std::vector<std::string>& suggestions);
@@ -31,7 +31,7 @@ private:
 		void freeNodes(Node* node);
 		Node* head;
 	};
-	Trie m_trie;
+	Trie* m_trie;
 };
 
 #endif  // STUDENTSPELLCHECK_H_

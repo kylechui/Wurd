@@ -10,7 +10,7 @@ SpellCheck* createSpellCheck()
 }
 
 StudentSpellCheck::~StudentSpellCheck() {
-	delete &m_trie;
+	delete m_trie;
 }
 
 bool StudentSpellCheck::load(std::string dictionaryFile) {
@@ -21,7 +21,7 @@ bool StudentSpellCheck::load(std::string dictionaryFile) {
 	// Iterate through the lines of the dictionary, and add them to the trie
 	string curLine;
 	while (getline(infile, curLine))
-		m_trie.addString(m_trie.head, curLine);
+		m_trie->addString(m_trie->head, curLine);
 	return true;
 }
 
@@ -122,20 +122,12 @@ StudentSpellCheck::Node::~Node()
 }
 void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node*& start, std::string s)
 {
+	if (start == nullptr)
+		start = new Node();
 	if (s.empty())
 	{
-		if (start == nullptr)
-		{
-			Node* n = new Node();
-			n->m_value = true;
-			start = n;
-			return;
-		}
-		else
-		{
-			start->m_value = true;
-			return;
-		}	
+		start->m_value = true;
+		return;
 	}
 	char c = s[0];
 	if (isalpha(c))
@@ -143,27 +135,15 @@ void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node*& start, std::st
 	// If the character is nonalpha and not an apostrophe, just return
 	else if (c != '\'')
 		return;
-	if (start == nullptr)
-	{
-		Node* n = new Node();
-		start = n;
-		if (c == '\'')
-			addString(n->m_children[26], s.substr(1));
-		else
-			addString(n->m_children[c - 'a'], s.substr(1));
-	}
+	if (c == '\'')
+		addString(start->m_children[26], s.substr(1));
 	else
-	{
-		if (c == '\'')
-			addString(start->m_children[26], s.substr(1));
-		else
-			addString(start->m_children[c - 'a'], s.substr(1));
-	}
+		addString(start->m_children[c - 'a'], s.substr(1));
 }
 
 bool StudentSpellCheck::findString(string s)
 {
-	Node* ptr = m_trie.head;
+	Node* ptr = m_trie->head;
 	if (ptr == nullptr)
 		return false;
 	for (int i = 0; i < s.size(); i++)
@@ -180,7 +160,7 @@ bool StudentSpellCheck::findString(string s)
 
 StudentSpellCheck::Trie::~Trie()
 {
-	freeNodes(head);
+	//freeNodes(head);
 }
 
 void StudentSpellCheck::Trie::freeNodes(Node* node)
@@ -189,8 +169,7 @@ void StudentSpellCheck::Trie::freeNodes(Node* node)
 		return;
 	//ERROR HERE
 	for (int i = 0; i < 27; i++)
-		freeNodes(node->m_children[i]);
-	delete node->m_children;
+		freeNodes((node->m_children)[i]);
 	delete node;
 }
 
