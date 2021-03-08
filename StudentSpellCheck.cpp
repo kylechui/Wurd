@@ -76,34 +76,53 @@ bool StudentSpellCheck::spellCheck(std::string word, int max_suggestions, std::v
 }
 
 void StudentSpellCheck::spellCheckLine(const std::string& line, std::vector<SpellCheck::Position>& problems) {
+	// Initialise some variables
+	//		hasLetter tells whether you are in a consecutive string of letters/apostrophes
+	//		start is the position of the start of the word
+	//		temp holds a string that builds into the word
 	bool hasLetter = false;
 	int start = 0;
 	string temp = "";
+	// Iterate through the characters in the line
 	for (int i = 0; i < line.size(); i++)
 	{
+		// Get the ith character and store it into c
 		char c = line[i];
+		// If c is a letter
 		if (isalpha(c))
 		{
+			// Convert c to lowercase immediately
 			c = tolower(c);
+			// If not already in a valid word, set start to the current position
+			// and reset temp
 			if (!hasLetter)
 			{
 				start = i;
 				temp = "";
 			}
+			// We are in a word now, so hasLetter is true
+			// add the character to temp
 			hasLetter = true;
 			temp += c;
-			// If at the end of the line, check for typos
+			// If at the end of the line, try to find the word in the dictionary
+			// If found, push the start and end positions into problems
 			if (i == line.size() - 1 && !findString(temp))
 				problems.push_back({ start, i });
 		}
+		// If the character is an apostrophe, add it to temp
 		else if (line[i] == '\'')
 			temp += c;
+		// If the character is not a valid part of a word
 		else
 		{
+			// If the cursor was in a valid word
 			if (hasLetter)
 			{
+				// Search for the word in the dictionary and
+				// if found, push its start and end positions into problems
 				if (!findString(temp))
 					problems.push_back({ start, i });
+				// Reset hasLetter because the cursor is no longer in a valid word
 				hasLetter = false;
 			}
 		}
@@ -119,19 +138,24 @@ StudentSpellCheck::Node::Node():
 
 void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node*& start, std::string s)
 {
+	// If the pointer is null, create a new node and set the pointer to point to our node
 	if (start == nullptr)
 		start = new Node();
+	// If the string is empty, set the nodes value to true
 	if (s.empty())
 	{
 		start->m_value = true;
 		return;
 	}
+	// Get the first character of the string and set it to lowercase, if applicable
 	char c = s[0];
 	if (isalpha(c))
 		c = tolower(c);
 	// If the character is nonalpha and not an apostrophe, just return
 	else if (c != '\'')
 		return;
+	// Repeat the process recursively, using the first 26 children to represent the letters of the alphabet,
+	// and the 27th child to represent the presence of an apostrophe
 	if (c == '\'')
 		addString(start->m_children[26], s.substr(1));
 	else
@@ -140,32 +164,40 @@ void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node*& start, std::st
 
 bool StudentSpellCheck::findString(string s)
 {
+	// If the head pointer of our trie is null, return
 	if (m_trie->head == nullptr)
 		return false;
 	Node* ptr = m_trie->head;
+	// Navigate through the tree, using the characters of the string s as indices for navigation
 	for (int i = 0; i < s.size(); i++)
 	{
 		if (s[i] == '\'')
 			ptr = ptr->m_children[26];
 		else if (isalpha(s[i]))
 			ptr = ptr->m_children[tolower(s[i]) - 'a'];
+		// If we reach a null pointer we return false
 		if (ptr == nullptr)
 			return false;
 	}
+	// Return the value of the final node
 	return ptr->m_value;
 }
 
 StudentSpellCheck::Trie::~Trie()
 {
+	// Free the trie
 	freeNodes(head);
 }
 
 void StudentSpellCheck::Trie::freeNodes(Node* node)
 {
+	// If the node is null, return
 	if (node == nullptr)
 		return;
+	// Free all of the children of the node,
 	for (int i = 0; i < 27; i++)
 		freeNodes((node->m_children)[i]);
+	// and then delete the node
 	delete node;
 }
 
