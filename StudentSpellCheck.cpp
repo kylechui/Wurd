@@ -10,7 +10,7 @@ SpellCheck* createSpellCheck()
 }
 
 StudentSpellCheck::~StudentSpellCheck() {
-	m_trie.freeNodes(m_trie.head);
+	delete &m_trie;
 }
 
 bool StudentSpellCheck::load(std::string dictionaryFile) {
@@ -117,6 +117,9 @@ StudentSpellCheck::Node::Node():
 		m_children[i] = nullptr;
 }
 
+StudentSpellCheck::Node::~Node()
+{
+}
 void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node*& start, std::string s)
 {
 	if (s.empty())
@@ -137,6 +140,9 @@ void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node*& start, std::st
 	char c = s[0];
 	if (isalpha(c))
 		c = tolower(c);
+	// If the character is nonalpha and not an apostrophe, just return
+	else if (c != '\'')
+		return;
 	if (start == nullptr)
 	{
 		Node* n = new Node();
@@ -181,8 +187,10 @@ void StudentSpellCheck::Trie::freeNodes(Node* node)
 {
 	if (node == nullptr)
 		return;
+	//ERROR HERE
 	for (int i = 0; i < 27; i++)
 		freeNodes(node->m_children[i]);
+	delete node->m_children;
 	delete node;
 }
 

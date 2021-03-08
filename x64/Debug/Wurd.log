@@ -1,10 +1,6 @@
-﻿  StudentTextEditor.cpp
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(63,29): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(73,29): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(86,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(108,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(153,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  StudentUndo.cpp
-  Generating Code...
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentUndo.cpp(67): warning C4715: 'StudentUndo::get': not all control paths return a value
+﻿  StudentSpellCheck.cpp
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentSpellCheck.cpp(122,19): warning C4156: deletion of an array expression without using the array form of 'delete'; array form substituted
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentSpellCheck.cpp(122,19): warning C4154: deletion of an array expression; conversion to pointer supplied
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentSpellCheck.cpp(194,25): warning C4156: deletion of an array expression without using the array form of 'delete'; array form substituted
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentSpellCheck.cpp(194,25): warning C4154: deletion of an array expression; conversion to pointer supplied
   Wurd.vcxproj -> C:\Users\kylec\Documents\Winter21\CS32\Wurd\x64\Debug\Wurd.exe

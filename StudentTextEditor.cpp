@@ -113,32 +113,42 @@ void StudentTextEditor::move(Dir dir) {
 }
 
 void StudentTextEditor::del() {
+	char ch;
 	// If not deleting at the end of a line, remove the character under the cursor
 	if (m_col < (*curRow).size())
+	{
+		// Save the character that's about to be deleted
+		ch = (*curRow)[m_col];
 		*curRow = (*curRow).substr(0, m_col) + (*curRow).substr(m_col + 1);
+		getUndo()->submit(Undo::Action::DELETE, m_row, m_col, ch);
+	}
 	else
 	{
 		// If deleting at the end of a line and not in the last row,
 		// combine the two rows into the current row and delete the next row
 		if (m_row != m_text.size() - 1)
 		{
+			ch = '\n';
 			list<string>::iterator temp = curRow;
 			temp++;
 			*curRow += *temp;
 			m_text.erase(temp);
+			getUndo()->submit(Undo::Action::JOIN, m_row, m_col, ch);
 		}
 	}
 }
 
 void StudentTextEditor::backspace() {
-	// Save the character that's about to be deleted
-	char ch = (*curRow)[m_col - 1];
+	char ch;
 	// If not deleting at the beginning of a line, remove the character
 	// and decrement the column
 	if (m_col > 0)
 	{
+		// Save the character that's about to be deleted
+		ch = (*curRow)[m_col - 1];
 		*curRow = (*curRow).substr(0, m_col - 1) + (*curRow).substr(m_col);
 		m_col--;
+		getUndo()->submit(Undo::Action::DELETE, m_row, m_col, ch);
 	}
 	else
 	{
@@ -146,6 +156,7 @@ void StudentTextEditor::backspace() {
 		// combine the two rows into the one above and delete the current row
 		if (m_row != 0)
 		{
+			ch = '\n';
 			string thisRow = *curRow;
 			list<string>::iterator temp = curRow;
 			curRow--;
@@ -153,9 +164,9 @@ void StudentTextEditor::backspace() {
 			m_col = (*curRow).size();
 			m_row--;
 			*curRow += thisRow;
+			getUndo()->submit(Undo::Action::JOIN, m_row, m_col, ch);
 		}
 	}
-	getUndo()->submit(Undo::Action::DELETE, m_row, m_col, ch);
 }
 
 void StudentTextEditor::insert(char ch) {
@@ -237,17 +248,68 @@ int StudentTextEditor::getLines(int startRow, int numRows, std::vector<std::stri
 }
 
 void StudentTextEditor::undo() {
+	// Initialise some variables
 	int count = 0;
+	int row;
 	string s = "";
-	Undo::Action act = getUndo()->get(m_row, m_col, count, s);
+	// Get the action from the top of the undo stack
+	Undo::Action act = getUndo()->get(row, m_col, count, s);
+	// If the stack is empty, do nothing
+	if (act == Undo::Action::ERROR)
+		return;
+	// Move the cursor to the correct row
+	while (m_row != row)
+	{
+		if (m_row < row)
+		{
+			m_row++;
+			curRow++;
+		}
+		else
+		{
+			m_row--;
+			curRow--;
+		}
+	}
+	// If the action is delete
 	if (act == Undo::Action::DELETE)
 	{
+		// Delete count characters from the string and move the column back count times
 		*curRow = (*curRow).substr(0, m_col - count) + (*curRow).substr(m_col);
 		m_col -= count;
 	}
+	// If the action is insert
 	else if (act == Undo::Action::INSERT)
 	{
+		// Insert the string into the current row and move the column forward count times
 		*curRow = (*curRow).substr(0, m_col) + s + (*curRow).substr(m_col);
 		m_col += count;
+	}
+	// If the action is split
+	else if (act == Undo::Action::SPLIT)
+	{
+		// Get the part of the string after the cursor
+		string nextRow = (*curRow).substr(m_col);
+		// Set this row to be the part of the string before the cursor
+		*curRow = (*curRow).substr(0, m_col);
+		// Jump to the next line and insert the next row there
+		curRow++;
+		m_text.insert(curRow, nextRow);
+		// Go back to the original row
+		curRow--;
+		curRow--;
+		// Update the position of the cursor
+		m_col = (*curRow).size();
+	}
+	// If the action is join
+	else if (act == Undo::Action::JOIN)
+	{
+		string thisRow = *curRow;
+		list<string>::iterator temp = curRow;
+		curRow--;
+		m_text.erase(temp);
+		m_col = (*curRow).size();
+		m_row--;
+		*curRow += thisRow;
 	}
 }

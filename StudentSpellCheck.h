@@ -19,6 +19,7 @@ private:
 	struct Node
 	{
 		Node();
+		~Node();
 		bool m_value;
 		Node* m_children[27];
 	};

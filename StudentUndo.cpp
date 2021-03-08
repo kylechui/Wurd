@@ -64,6 +64,16 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 		col -= count - 1;
 		return Undo::Action::INSERT;
 	}
+	else if (act == Action::JOIN)
+	{
+		count = 1;
+		return Undo::Action::SPLIT;
+	}
+	else if (act == Action::SPLIT)
+	{
+		count = 1;
+		return Undo::Action::JOIN;
+	}
 }
 
 void StudentUndo::clear() {
