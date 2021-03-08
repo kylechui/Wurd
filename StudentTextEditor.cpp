@@ -50,25 +50,27 @@ void StudentTextEditor::reset() {
 	m_col = 0;
 }
 
-void StudentTextEditor::move(Dir dir) {
+void StudentTextEditor::move(TextEditor::Dir dir) {
 	switch (dir)
 	{
 	// If up is pressed, move up only if not in the first row
-	case (Dir::UP):
+	case (TextEditor::Dir::UP):
 		if (m_row > 0)
 		{
 			m_row--;
 			curRow--;
+			// Make sure not to go past the end of the line
 			if (m_col > (*curRow).size())
 				m_col = (*curRow).size();
 		}
 		break;
 	// If down is pressed, move down only if not in the last row
-	case (Dir::DOWN):
+	case (TextEditor::Dir::DOWN):
 		if (m_row < m_text.size() - 1)
 		{
 			m_row++;
 			curRow++;
+			// Make sure not to go past the end of the line
 			if (m_col > (*curRow).size())
 				m_col = (*curRow).size();
 		}
@@ -76,7 +78,8 @@ void StudentTextEditor::move(Dir dir) {
 	// If left is pressed, move to the left if possible,
 	// Otherwise go the end of the previous row if possible,
 	// Otherwise do nothing
-	case (Dir::LEFT):
+	case (TextEditor::Dir::LEFT):
+		// Move left if possible
 		if (m_col != 0)
 			m_col--;
 		else if (m_row != 0)
@@ -89,7 +92,7 @@ void StudentTextEditor::move(Dir dir) {
 	// If right is pressed, move to the right if possible,
 	// Otherwise go to the beginning of the next row if possible,
 	// Otherwise do nothing
-	case (Dir::RIGHT):
+	case (TextEditor::Dir::RIGHT):
 		if (m_col != (*curRow).size())
 			m_col++;
 		else if (m_row != m_text.size() - 1)
@@ -100,11 +103,11 @@ void StudentTextEditor::move(Dir dir) {
 		}
 		break;
 	// If home is pressed, move to the beginning of the line
-	case (Dir::HOME):
+	case (TextEditor::Dir::HOME):
 		m_col = 0;
 		break;
 	// If end is pressed, move to the end of the line
-	case (Dir::END):
+	case (TextEditor::Dir::END):
 		m_col = (*curRow).size();
 		break;
 	default:
@@ -288,7 +291,7 @@ void StudentTextEditor::undo() {
 	// If the action is split
 	else if (act == Undo::Action::SPLIT)
 	{
-		// Get the part of the string after the cursor
+		// Copy the text after the cursor
 		string nextRow = (*curRow).substr(m_col);
 		// Set this row to be the part of the string before the cursor
 		*curRow = (*curRow).substr(0, m_col);
@@ -304,6 +307,8 @@ void StudentTextEditor::undo() {
 	// If the action is join
 	else if (act == Undo::Action::JOIN)
 	{
+		// Copy the text from the next row and delete it
+		// and add the text to the current row
 		string thisRow = *curRow;
 		list<string>::iterator temp = curRow;
 		curRow--;

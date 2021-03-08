@@ -117,9 +117,6 @@ StudentSpellCheck::Node::Node():
 		m_children[i] = nullptr;
 }
 
-StudentSpellCheck::Node::~Node()
-{
-}
 void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node*& start, std::string s)
 {
 	if (start == nullptr)
@@ -143,9 +140,9 @@ void StudentSpellCheck::Trie::addString(StudentSpellCheck::Node*& start, std::st
 
 bool StudentSpellCheck::findString(string s)
 {
-	Node* ptr = m_trie->head;
-	if (ptr == nullptr)
+	if (m_trie->head == nullptr)
 		return false;
+	Node* ptr = m_trie->head;
 	for (int i = 0; i < s.size(); i++)
 	{
 		if (s[i] == '\'')
@@ -160,14 +157,13 @@ bool StudentSpellCheck::findString(string s)
 
 StudentSpellCheck::Trie::~Trie()
 {
-	//freeNodes(head);
+	freeNodes(head);
 }
 
 void StudentSpellCheck::Trie::freeNodes(Node* node)
 {
 	if (node == nullptr)
 		return;
-	//ERROR HERE
 	for (int i = 0; i < 27; i++)
 		freeNodes((node->m_children)[i]);
 	delete node;
