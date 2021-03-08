@@ -6,6 +6,7 @@ Undo* createUndo()
 }
 
 void StudentUndo::submit(const Action action, int row, int col, char ch) {
+	// Push the action onto the stack
 	m_stack.push(new MyAction(action, row, col, ch));
 }
 
