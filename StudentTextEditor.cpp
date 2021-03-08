@@ -29,10 +29,13 @@ bool StudentTextEditor::load(std::string file) {
 		return false;
 	// Reset the editor
 	reset();
-	// Iterate through the lines of the text, TODO: remove carriage returns
+	// Iterate through the lines of the text
 	string curLine;
 	while (getline(infile, curLine))
 	{
+		// Strip carriage return characters
+		if (curLine.size() > 0 && curLine[curLine.size() - 1] == '\r')
+			curLine = curLine.substr(1, curLine.size() - 1);
 		m_text.push_back(curLine);
 	}
 	curRow = m_text.begin();
@@ -40,12 +43,25 @@ bool StudentTextEditor::load(std::string file) {
 }
 
 bool StudentTextEditor::save(std::string file) {
-	return true;  // TODO
+	ofstream outfile(file);
+	// Return false if no file could be found
+	if (!outfile)
+		return false;
+	// Iterate through the text and push it into the file, adding \n after every line
+	list<string>::iterator it = m_text.begin();
+	while (it != m_text.end())
+	{
+		outfile << *it << '\n';
+		it++;
+	}
+	return true;
 }
 
 void StudentTextEditor::reset() {
-	//TODO: reset undo operations as well
+	// Clear the text from the editor and the undo stack
 	m_text.clear();
+	getUndo()->clear();
+	// Reset the cursor to (0, 0)
 	m_row = 0;
 	m_col = 0;
 }
@@ -143,22 +159,23 @@ void StudentTextEditor::del() {
 
 void StudentTextEditor::backspace() {
 	char ch;
-	// If not deleting at the beginning of a line, remove the character
-	// and decrement the column
+	// If not deleting at the beginning of a line,
 	if (m_col > 0)
 	{
 		// Save the character that's about to be deleted
 		ch = (*curRow)[m_col - 1];
+		// Remove the character and decrement the column
 		*curRow = (*curRow).substr(0, m_col - 1) + (*curRow).substr(m_col);
 		m_col--;
 		getUndo()->submit(Undo::Action::DELETE, m_row, m_col, ch);
 	}
+	// If deleting at the beginning of a line
 	else
-	{
-		// If deleting at the beginning of a line and not in the first row,
-		// combine the two rows into the one above and delete the current row
+	{	
+		// If not in the first row,
 		if (m_row != 0)
 		{
+			// Combine the two rows into the one above and delete the current row
 			ch = '\n';
 			string thisRow = *curRow;
 			list<string>::iterator temp = curRow;

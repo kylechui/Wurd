@@ -32,7 +32,7 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 			count++;
 			col = m_stack.top()->m_col;
 			// Get the values from the top of the stack and pop the top off
-			Action act = m_stack.top()->m_action;
+			act = m_stack.top()->m_action;
 			row = m_stack.top()->m_row;
 			col = m_stack.top()->m_col;
 			ch = m_stack.top()->m_col;
@@ -55,7 +55,7 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 			ch = m_stack.top()->m_char;
 			text += ch;
 			// Get the values from the top of the stack and pop the top off
-			Action act = m_stack.top()->m_action;
+			act = m_stack.top()->m_action;
 			row = m_stack.top()->m_row;
 			col = m_stack.top()->m_col;
 			ch = m_stack.top()->m_col;
@@ -74,6 +74,7 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 		count = 1;
 		return Undo::Action::JOIN;
 	}
+	return Undo::Action::ERROR;
 }
 
 void StudentUndo::clear() {

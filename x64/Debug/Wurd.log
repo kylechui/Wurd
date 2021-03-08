@@ -1,9 +1,9 @@
 ﻿  StudentTextEditor.cpp
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(64,29): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(75,29): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(89,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(111,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(167,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(305,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(316,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(77,29): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(88,29): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(102,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(124,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(180,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(318,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(329,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
   Wurd.vcxproj -> C:\Users\kylec\Documents\Winter21\CS32\Wurd\x64\Debug\Wurd.exe
