@@ -1,11 +1,2 @@
-﻿  StudentTextEditor.cpp
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(80,29): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(91,29): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(105,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(127,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(184,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(322,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kylec\Documents\Winter21\CS32\Wurd\Wurd\StudentTextEditor.cpp(333,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  StudentUndo.cpp
-  Generating Code...
+﻿  StudentUndo.cpp
   Wurd.vcxproj -> C:\Users\kylec\Documents\Winter21\CS32\Wurd\x64\Debug\Wurd.exe

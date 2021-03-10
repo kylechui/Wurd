@@ -194,7 +194,7 @@ void StudentTextEditor::insert(char ch) {
 	string s(1,ch);
 	if (ch == '\t')
 		s = "    ";
-	// If the current row is at the end (typically a new file) then
+	// If the current row is at the end of the file then
 	// add a new row that's empty
 	if (curRow == m_text.end())
 	{
@@ -205,11 +205,19 @@ void StudentTextEditor::insert(char ch) {
 	*curRow = (*curRow).substr(0, m_col) + s + (*curRow).substr(m_col);
 	// If the character is a tab, move forward by 4 spaces
 	// Otherwise just move forward by one
-	if (ch == 9)
-		m_col += 4;
+	if (ch == '\t')
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			m_col++;
+			getUndo()->submit(Undo::Action::INSERT, m_row, m_col, ' ');
+		}
+	}
 	else
+	{
 		m_col++;
-	getUndo()->submit(Undo::Action::INSERT, m_row, m_col, ch);
+		getUndo()->submit(Undo::Action::INSERT, m_row, m_col, ch);
+	}
 }
 
 void StudentTextEditor::enter() {
