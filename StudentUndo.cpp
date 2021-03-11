@@ -71,7 +71,7 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 		while (!m_stack.empty() &&
 				m_stack.top()->m_action == Action::DELETE &&
 				m_stack.top()->m_row == row &&
-				m_stack.top()->m_col == col || m_stack.top()->m_col - 1 == col);
+				(m_stack.top()->m_col == col || m_stack.top()->m_col - 1 == col));
 		// Move the column back by count - 1 positions, to the correct spot to insert text
 		col -= numMoves - 1;
 		// Append the characters deleted by the delete key to the string deleted by backspace and return
