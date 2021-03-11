@@ -179,10 +179,10 @@ void StudentTextEditor::backspace() {
 			ch = '\n';
 			string thisRow = *curRow;
 			list<string>::iterator temp = curRow;
+			m_row--;
 			curRow--;
 			m_text.erase(temp);
 			m_col = (*curRow).size();
-			m_row--;
 			*curRow += thisRow;
 			getUndo()->submit(Undo::Action::JOIN, m_row, m_col, ch);
 		}
@@ -203,8 +203,8 @@ void StudentTextEditor::insert(char ch) {
 	}
 	// Insert the character(s)
 	*curRow = (*curRow).substr(0, m_col) + s + (*curRow).substr(m_col);
-	// If the character is a tab, move forward by 4 spaces
-	// Otherwise just move forward by one
+	// If the character is a tab, add four spaces to the page
+	// Otherwise just add the (non-tab) character
 	if (ch == '\t')
 	{
 		for (int i = 0; i < 4; i++)
@@ -242,10 +242,12 @@ void StudentTextEditor::getPos(int& row, int& col) const {
 }
 
 int StudentTextEditor::getLines(int startRow, int numRows, std::vector<std::string>& lines) const {
+	// Check for invalid values
 	if (startRow < 0 || numRows < 0 || startRow > m_text.size() - 1)
 		return -1;
+	// Clear the lines variable
 	lines.clear();
-	// Navigate a pointer to startRow
+	// Initialise some variables to help navigate a pointer to startRow
 	list<string>::iterator it = curRow;
 	int tempRow = m_row;
 	int count = 0;
