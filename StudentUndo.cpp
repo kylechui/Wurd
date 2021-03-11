@@ -81,6 +81,11 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 	// If the most recent action joins two lines
 	else if (act == Action::JOIN)
 	{
+		// Get the values from the top of the stack and pop the top off
+		act = m_stack.top()->m_action;
+		row = m_stack.top()->m_row;
+		col = m_stack.top()->m_col;
+		ch = m_stack.top()->m_char;
 		m_stack.pop();
 		// Return that editor should split lines
 		count = 1;
@@ -89,6 +94,11 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 	// If the most recent action splits two lines
 	else if (act == Action::SPLIT)
 	{
+		// Get the values from the top of the stack and pop the top off
+		act = m_stack.top()->m_action;
+		row = m_stack.top()->m_row;
+		col = m_stack.top()->m_col;
+		ch = m_stack.top()->m_char;
 		m_stack.pop();
 		// Return that editor should join lines
 		count = 1;
