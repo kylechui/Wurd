@@ -18,6 +18,9 @@ bool StudentSpellCheck::load(std::string dictionaryFile) {
 	// Return false if no file could be found
 	if (!infile)
 		return false;
+	// Free the nodes
+	m_trie->freeNodes(m_trie->head);
+	m_trie->head = nullptr;
 	// Iterate through the lines of the dictionary, and add them to the trie
 	string curLine;
 	while (getline(infile, curLine))
