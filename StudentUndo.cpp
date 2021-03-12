@@ -29,6 +29,7 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 			row = m_stack.top()->m_row;
 			col = m_stack.top()->m_col;
 			ch = m_stack.top()->m_char;
+			delete m_stack.top();
 			m_stack.pop();
 			// Increase count
 			count++;
@@ -56,6 +57,7 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 			row = m_stack.top()->m_row;
 			col = m_stack.top()->m_col;
 			ch = m_stack.top()->m_char;
+			delete m_stack.top();
 			m_stack.pop();
 			// Increment count
 			count++;
@@ -86,6 +88,7 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 		row = m_stack.top()->m_row;
 		col = m_stack.top()->m_col;
 		ch = m_stack.top()->m_char;
+		delete m_stack.top();
 		m_stack.pop();
 		// Return that editor should split lines
 		count = 1;
@@ -99,6 +102,7 @@ StudentUndo::Action StudentUndo::get(int &row, int &col, int& count, std::string
 		row = m_stack.top()->m_row;
 		col = m_stack.top()->m_col;
 		ch = m_stack.top()->m_char;
+		delete m_stack.top();
 		m_stack.pop();
 		// Return that editor should join lines
 		count = 1;
